@@ -1,0 +1,6 @@
+sentry-sdk
+openai-whisper
+sentence-transformers
+
+# Open-Source AI Models (Self-Hosted, FREE, HIPAA-Compliant)
+ollama==0.4.4

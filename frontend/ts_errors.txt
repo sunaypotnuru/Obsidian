@@ -1,0 +1,16 @@
+﻿src/app/components/VoiceAccessibility.tsx(113,22): error TS2554: Expected 1 arguments, but got 0.
+src/app/components/XAIVisualizer.tsx(152,46): error TS2769: No overload matches this call.
+  Overload 1 of 2, '(sw: number, sh: number, settings?: ImageDataSettings | undefined): ImageData', gave the following error.
+    Argument of type 'Uint8ClampedArray<ArrayBufferLike>' is not assignable to parameter of type 'number'.
+  Overload 2 of 2, '(data: ImageDataArray, sw: number, sh?: number | undefined, settings?: ImageDataSettings | undefined): ImageData', gave the following error.
+    Argument of type 'Uint8ClampedArray<ArrayBufferLike>' is not assignable to parameter of type 'ImageDataArray'.
+      Type 'ArrayBufferLike' is not assignable to type 'ArrayBuffer'.
+        Type 'SharedArrayBuffer' is missing the following properties from type 'ArrayBuffer': resizable, resize, detached, transfer, transferToFixedLength
+src/app/pages/doctor/PatientTimelineView.tsx(76,17): error TS2353: Object literal may only specify known properties, and 'consultation_notes' does not exist in type 'FormData'.
+src/app/pages/doctor/PROAnalytics.tsx(202,21): error TS2322: Type 'string | $SpecialObject | TFunctionDetailedResult<string | $SpecialObject, any>' is not assignable to type 'string | number | bigint | boolean | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<...> | null | undefined'.
+  Type 'object' is not assignable to type 'string | number | bigint | boolean | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<...> | null | undefined'.
+src/app/pages/LabAnalyzerPage.tsx(25,57): error TS2345: Argument of type 'File' is not assignable to parameter of type 'FormData'.
+  Type 'File' is missing the following properties from type 'FormData': append, delete, get, getAll, and 7 more.
+src/app/pages/patient/ARSessionPage.tsx(39,6): error TS2448: Block-scoped variable 'exercise' used before its declaration.
+src/app/pages/patient/PROSubmissionPage.tsx(335,21): error TS2322: Type 'string | $SpecialObject | TFunctionDetailedResult<string | $SpecialObject, any>' is not assignable to type 'ReactI18NextChildren | Iterable<ReactI18NextChildren>'.
+  Type 'object' is not assignable to type 'ReactI18NextChildren | Iterable<ReactI18NextChildren>'.

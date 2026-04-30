@@ -1,0 +1,202 @@
+version: '3.8'
+
+networks:
+  netra-network:
+    driver: bridge
+
+volumes:
+  redis_data:
+    driver: local
+
+services:
+  # Redis Cache Service
+  redis:
+    image: redis:7-alpine
+    container_name: netra-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - netra-network
+    command: redis-server --appendonly yes --maxmemory 256mb --maxmemory-policy allkeys-lru
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+      start_period: 5s
+    restart: unless-stopped
+
+  backend:
+    build:
+      context: ..
+      dockerfile: ./backend/core/Dockerfile
+    container_name: netra-backend
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+    ports:
+      - "8000:8000"
+    volumes:
+      - ../backend/core:/app
+    env_file:
+      - ../.env
+    environment:
+      - ANEMIA_API_URL=http://anemia-service:8001
+      - DR_API_URL=http://diabetic-retinopathy:8002
+      - MENTAL_HEALTH_API_URL=http://mental-health:8003
+      - PARKINSONS_API_URL=http://parkinsons-voice:8004
+      - CATARACT_API_URL=http://cataract:8005
+      - REDIS_URL=redis://redis:6379
+      - BYPASS_AUTH=${BYPASS_AUTH:-false}
+      - PYTHONUNBUFFERED=1
+    dns:
+      - 8.8.8.8
+      - 8.8.4.4
+    networks:
+      - netra-network
+    healthcheck:
+      test: ["CMD-SHELL", "python -c \"import urllib.request; urllib.request.urlopen('http://localhost:8000/health')\" || exit 1"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 15s
+    restart: unless-stopped
+    depends_on:
+      redis:
+        condition: service_healthy
+
+  frontend:
+    build:
+      context: ../frontend
+      dockerfile: Dockerfile
+      args:
+        # VITE_ vars MUST be passed as build args — Vite bakes them into JS at build time
+        - VITE_API_URL=http://localhost:8000
+        - VITE_SUPABASE_URL=${VITE_SUPABASE_URL}
+        - VITE_SUPABASE_ANON_KEY=${VITE_SUPABASE_ANON_KEY}
+        - VITE_LIVEKIT_URL=${VITE_LIVEKIT_URL}
+        - VITE_BYPASS_AUTH=${VITE_BYPASS_AUTH:-false}
+    container_name: netra-frontend
+    ports:
+      - "3000:80"
+    networks:
+      - netra-network
+    depends_on:
+      backend:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:80/ || exit 1"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+    restart: unless-stopped
+
+  anemia-service:
+    build:
+      context: ..
+      dockerfile: ./backend/anemia/Dockerfile
+    container_name: netra-anemia-service
+    ports:
+      - "8001:8001"
+    volumes:
+      - ../backend/anemia:/app
+      - ../backend/anemia/models:/app/models:ro
+    networks:
+      - netra-network
+    environment:
+      - PYTHONUNBUFFERED=1
+    healthcheck:
+      test: ["CMD-SHELL", "python -c \"import urllib.request; urllib.request.urlopen('http://localhost:8001/health')\" || exit 1"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 15s
+    restart: unless-stopped
+
+  mental-health:
+    build:
+      context: ../backend/mental-health
+      dockerfile: Dockerfile
+    container_name: netra-mental-health
+    ports:
+      - "8003:8003"
+    networks:
+      - netra-network
+    environment:
+      - PYTHONUNBUFFERED=1
+    healthcheck:
+      test: ["CMD-SHELL", "python -c \"import urllib.request; urllib.request.urlopen('http://localhost:8003/health')\" || exit 1"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 15s
+    volumes:
+      - ../backend/mental-health/app:/app/app
+    restart: unless-stopped
+
+  # Diabetic Retinopathy Detection Service
+  diabetic-retinopathy:
+    build:
+      context: ..
+      dockerfile: ./backend/diabetic-retinopathy/Dockerfile
+    container_name: netra-diabetic-retinopathy
+    ports:
+      - "8002:8002"
+    volumes:
+      - ../backend/diabetic-retinopathy/models:/app/models:ro
+    networks:
+      - netra-network
+    environment:
+      - PYTHONUNBUFFERED=1
+    healthcheck:
+      test: ["CMD-SHELL", "python -c \"import urllib.request; urllib.request.urlopen('http://localhost:8002/health')\" || exit 1"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 15s
+    restart: unless-stopped
+
+  # Cataract Detection Service
+  cataract:
+    build:
+      context: ..
+      dockerfile: ./backend/cataract/Dockerfile
+    container_name: netra-cataract
+    ports:
+      - "8005:8005"
+    volumes:
+      - ../backend/cataract/models:/app/models:ro
+    networks:
+      - netra-network
+    environment:
+      - PYTHONUNBUFFERED=1
+    healthcheck:
+      test: ["CMD-SHELL", "python -c \"import urllib.request; urllib.request.urlopen('http://localhost:8005/health')\" || exit 1"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 15s
+    restart: unless-stopped
+
+  # Parkinson's Voice Detection Service
+  parkinsons-voice:
+    build:
+      context: ..
+      dockerfile: ./backend/parkinsons-voice/Dockerfile
+    container_name: netra-parkinsons-voice
+    ports:
+      - "8004:8004"
+    volumes:
+      - ../backend/parkinsons-voice/models:/app/models:ro
+    networks:
+      - netra-network
+    environment:
+      - PYTHONUNBUFFERED=1
+    healthcheck:
+      test: ["CMD-SHELL", "python -c \"import urllib.request; urllib.request.urlopen('http://localhost:8004/health')\" || exit 1"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 15s
+    restart: unless-stopped

@@ -1,0 +1,41 @@
+# Mental Health Service - FREE Dependencies
+# All packages are open-source and free to use
+
+# Web Framework
+fastapi==0.104.1
+uvicorn[standard]==0.24.0
+python-multipart==0.0.6
+
+# Speech Recognition (FREE - Local)
+openai-whisper==20231117
+
+# NLP & Transformers (FREE)
+transformers==4.35.2
+torch==2.1.1
+torchvision==0.16.1
+torchaudio==2.1.1
+
+# Audio Processing (FREE)
+librosa==0.10.1
+soundfile==0.12.1
+praat-parselmouth==0.4.3
+
+# Computer Vision (FREE)
+opencv-python==4.8.1.78
+deepface>=0.0.93
+tf-keras
+
+# Machine Learning (FREE)
+scikit-learn==1.3.2
+xgboost==2.0.2
+
+# Data Processing
+numpy==1.24.3
+pandas==2.1.3
+
+# Utilities
+python-dotenv==1.0.0
+pydantic==2.5.0
+
+# HTTP Client
+httpx==0.25.2

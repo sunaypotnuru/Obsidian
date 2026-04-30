@@ -1,0 +1,14 @@
+fastapi==0.104.1
+uvicorn[standard]==0.24.0
+python-multipart==0.0.6
+Pillow==10.1.0
+numpy>=1.24.0,<2.0
+torch==2.1.0
+torchvision==0.16.0
+timm==0.9.12
+pydantic==2.5.0
+python-dotenv==1.0.0
+# XAI Dependencies (Phase 2)
+grad-cam==1.5.5
+opencv-python-headless==4.10.0.84
+matplotlib==3.9.2

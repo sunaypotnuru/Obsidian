@@ -1,0 +1,102 @@
+# Environment variables
+.env
+.env.local
+.env.*.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Dependencies
+node_modules/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+venv/
+.venv/
+env/
+ENV/
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Build output
+dist/
+build/
+*.egg-info/
+.eggs/
+*.egg
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.project
+.classpath
+.settings/
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+.pnpm-debug.log*
+logs_*/
+
+# Testing
+coverage/
+.nyc_output/
+.pytest_cache/
+.coverage
+htmlcov/
+.ruff_cache/
+
+# Temporary files
+*.tmp
+*.temp
+.cache/
+.parcel-cache/
+.vite/
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# Secrets
+*.pem
+*.key
+.secrets/
+
+# Docker
+.dockerignore
+
+# Misc
+.turbo/
+.next/
+out/
+.vercel/
+.netlify/
+
+# Training Data (moved to C:\Netra Ai Training Data)
+ml-training/
+datasets/
+# models/ - Commented out to allow pushing trained models with Git LFS
+# *.h5 - Tracked by Git LFS
+# *.pth - Tracked by Git LFS
+# *.onnx - Tracked by Git LFS
+# *.tflite - Tracked by Git LFS
+# *.pkl - Tracked by Git LFS
+# *.joblib - Tracked by Git LFS
+*.ipynb_checkpoints/
+checkpoints/
+runs/
+# logs/ - Commented out to allow pushing logs with Git LFS
+wandb/

@@ -1,13 +1,6 @@
 {
-  "buildCommand": "npm run build --prefix frontend",
+  "buildCommand": "cd frontend && npm ci && npm run build",
   "outputDirectory": "frontend/dist",
   "installCommand": "npm install --prefix frontend",
-  "devCommand": "npm run dev --prefix frontend",
-  "framework": null,
-  "rewrites": [
-    {
-      "source": "/(.*)",
-      "destination": "/index.html"
-    }
-  ]
+  "devCommand": "cd frontend && npm run dev"
 }

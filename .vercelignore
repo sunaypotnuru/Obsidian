@@ -1,0 +1,14 @@
+backend/
+docker/
+database/
+.git/
+.github/
+node_modules/
+*.log
+.env.local
+.env.*.local
+__pycache__/
+*.pyc
+.pytest_cache/
+.vscode/
+.idea/

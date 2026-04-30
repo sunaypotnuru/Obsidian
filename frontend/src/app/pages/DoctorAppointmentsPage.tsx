@@ -170,7 +170,7 @@ export default function DoctorAppointmentsPage() {
         type: w.urgency === 'high' ? t("doctor.appointments.urgent", "Urgent") : t("doctor.appointments.waitlist_tab", "Waitlist"),
         is_waitlist: true,
         status: 'waitlist'
-    })).filter((a) => {
+    })) : appointments.filter((a) => {
         const d = new Date(a.scheduled_at);
         const validDate = !isNaN(d.getTime());
         if (filter === "today") return validDate && isToday(d);

@@ -6,8 +6,8 @@
   "author": "Sunay Potnuru <sunaypotnuru@gmail.com> (https://github.com/sunaypotnuru)",
   "type": "module",
   "scripts": {
-    "build": "vite build",
-    "dev": "vite",
+    "build": "npx vite build",
+    "dev": "npx vite",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "type-check": "tsc --noEmit",
     "test": "vitest",

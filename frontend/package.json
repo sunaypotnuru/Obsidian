@@ -8,6 +8,7 @@
   "scripts": {
     "build": "npx vite build",
     "dev": "npx vite",
+    "start": "npx serve -s dist -l $PORT",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "type-check": "tsc --noEmit",
     "test": "vitest",
